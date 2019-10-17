@@ -5,4 +5,4 @@ let money,
   mission,
   period;
 
-  
+  alert('who is who');
