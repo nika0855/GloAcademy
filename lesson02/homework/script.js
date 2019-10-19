@@ -23,10 +23,10 @@ console.log(str.split(' '));
  console.log(str2.split(', '));
 */
 
-let num = '266216';
+let num = 266219;
 
-let arr = num.toLocaleString().split('');
-console.log(arr);
+let arr = num.toString().split('');
+//  console.log(arr);
 
 
 let sum = 1;
@@ -37,8 +37,9 @@ console.log(sum);
 
 let cube = sum ** 3;
 
-console.log(cube);
+//  console.log(cube);
 
-let arr2 = cube.toLocaleString().split('');
+let arr2 = cube.toString().split('');
+
 
 console.log(`"${arr2[0]}${arr2[1]}"`);
