@@ -43,3 +43,15 @@ let arr2 = cube.toString().split('');
 
 
 console.log(`"${arr2[0]}${arr2[1]}"`);
+
+//multiplication.reduce()
+
+let numbers = [2, 6, 6, 2, 1, 9];
+let multiplication = numbers.reduce(muFunc);
+
+function muFunc(total, valuo, index, arr) {
+  return total * valuo;
+  //total + valuo
+}
+
+console.log(`multiplication : '${ multiplication}'`);
