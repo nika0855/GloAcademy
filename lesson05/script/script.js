@@ -24,16 +24,30 @@ showTypeOf(annualPlan.money);
 showTypeOf(annualPlan.income);
 showTypeOf(annualPlan.deposit);
 
-let obligatoryExpenses1 = prompt('Какие обязательные ежемесячные расходы у вас есть?');
+let obligatoryExpenses1 = prompt('Какие обязательные ежемесячные расходы у вас есть?', "кредит");
 
-let howMuchIsIt1 = +prompt('Во сколько это обойдется?', 2000);
+let howMuchIsIt1 = +prompt('Во сколько это обойдется?', 12000);
 
-let obligatoryExpenses2 = prompt('Какие обязательные ежемесячные расходы у вас есть?');
+let obligatoryExpenses2 = prompt('Какие обязательные ежемесячные расходы у вас есть?', "инет");
 
 let howMuchIsIt2 = +prompt('Во сколько это обойдется?', 2000);
 
 let budgetMonth = annualPlan.money - (howMuchIsIt1 + howMuchIsIt2);
 
+let getExpensesMonth = function() {
+  return howMuchIsIt1 + howMuchIsIt2;
+}
+console.log(`Расходы за месяц : ${getExpensesMonth()}`);
+
+let getAccumulatedMonth = function() {
+  return [annualPlan.money] - getExpensesMonth();
+}
+console.log(`Накопления за период : ${getAccumulatedMonth()}`);
+
+let getTargetMonth = function() {
+  return [annualPlan.mission] / getAccumulatedMonth();
+}
+console.log(`Cрок достижения цели в месяцах : ${Math.floor(getTargetMonth())}`);
 
 annualPlan.period = annualPlan.mission / budgetMonth;
 
@@ -55,20 +69,3 @@ let getStatusIncome = function(){
 
 console.log('getStatusIncome: ', getStatusIncome());
 
-function getExpensesMonth (a, b) {
-  return a + b; 
-}
-let sum = getExpensesMonth(howMuchIsIt1, howMuchIsIt2);
-
-function getAccumulatedMonth(c, d){
-  return c - d;
-}
-let accumulatedMonth = getAccumulatedMonth([annualPlan.money], sum);
-console.log('Накопления за период : ', accumulatedMonth);
-
-function getTargetMonth(e, f) {
-  return e / f
-}
-
-let numMonth = getTargetMonth([annualPlan.mission], accumulatedMonth);
-console.log('Cрок достижения цели в месяцах : ', Math.floor(numMonth));
