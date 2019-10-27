@@ -12,7 +12,7 @@ let annualPlan = {
 let start = function() {
   //  annualPlan.money = +prompt('Ваш месячный доход?', 100000);
   do{
-    annualPlan.money = +prompt('Ваш месячный доход?', 100000);
+    annualPlan.money = prompt('Ваш месячный доход?', 100000);
   }
   while (isNaN(annualPlan.money) || annualPlan.money === "" || annualPlan.money === null) ;    
   
@@ -47,13 +47,30 @@ let getExpensesMonth = function() {
     if(i === 1) {
       obligatoryExpenses2 = prompt('Какие обязательные ежемесячные расходы у вас есть?', "инет");
     }
-     sum += +prompt('Во сколько это обойдется?', 12000);
-  
-  }
-  
- 
+    //  sum += +prompt('Во сколько это обойдется?', 12000);
+
+    //  while (isNaN(sum) || sum === '' || sum === NaN || sum === 0){
+    //   sum += +prompt('Во сколько это обойдется?', 12000);
+      
+    //  }
+    sum += num();
+    
+    }
+    
   return sum;
 }
+
+let num = function() {
+  let number = 0;
+ number= +prompt('Во сколько это обойдется?', 12000);
+
+   while (isNaN(number) || number === '' || number === NaN || number === 0){
+    number += +prompt('Во сколько это обойдется?', 12000);
+    
+   }
+   return number;
+}
+
 
 let expensesAmount = getExpensesMonth();
 console.log(`Расходы за месяц : ${expensesAmount}`);
