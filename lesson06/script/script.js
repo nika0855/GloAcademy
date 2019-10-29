@@ -1,5 +1,8 @@
 'use strict'
 
+const isNum = function(n){
+  return !isNaN(parseFloat(n)) && isFinite(n);
+};
 let money;
 let start = function() {
   //  annualPlan.money = +prompt('Ваш месячный доход?', 100000);
@@ -14,10 +17,7 @@ start();
 let appData = {
   income: {},
   addIncome: [],
-  expenses: {
-    obligatoryExpenses1: number,
-    obligatoryExpenses1: number
-  },
+  expenses: {}, 
   addExpenses: [],
   deposit: false,
   mission: 500000,
@@ -27,28 +27,32 @@ let appData = {
   budgetMonth: 0,
   expensesMonth: 0,
   asking: function(){
-      addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', "car, food");
-      appData. addExpenses.toLowerCase().split(' ,');
+    let  addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', "car, food");
+       addExpenses.toLowerCase().split(' ,');
       appData.deposit = confirm('Есть ли у вас депозит в банке?');
       function expenses() {
     
     for(let i = 0; i < 2; i++){
-      if(i === 0) {
-        obligatoryExpenses1 = prompt('Какие обязательные ежемесячные расходы у вас есть?', "кредит");
-        number= +prompt('Во сколько это обойдется?', 12000);
-      }
       
-      if(i === 1) {
-        obligatoryExpenses2 = prompt('Какие обязательные ежемесячные расходы у вас есть?', "инет");
+       let ask = prompt('Какие обязательные ежемесячные расходы у вас есть?', "кредит");
+       let askTwo = +prompt('Во сколько это обойдется?', 12000);
+       if(isNum(askTwo)){
+         appData.expenses[ask] = askTwo;
+       }else {
+         i -= 1;
+        
       }
      
     } 
     for(let item in appData.expenses){
-      if(valid(appData.expenses[item]) === false){
+      if(isNum(appData.expenses[item]) === false){
           expenses();   
-  
 }
+    }
+  }
   expenses();
+  }
+      
   };
   appData.asking();
    
@@ -75,7 +79,7 @@ let getTargetMonth = function(){
 getTargetMonth();
 
   
-  let getStatusIncome: function(){
+  let getStatusIncome = function(){
     if(budgetDay > 800) {
       return ('Высокий уровень дохода');
   }else if(budgetDay > 300 || budgetDay < 800) {
@@ -94,10 +98,7 @@ getTargetMonth();
   
   for(let item in appData){
       console.log("Наша программа включает в себя данные: " + item + " " + appData[item]);
-  }
-
-
-
+  };
 
 
 
