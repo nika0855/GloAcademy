@@ -55,15 +55,15 @@ let appData = {
       
   };
   appData.asking();
-   
+   console.log(appData.expenses);
 
-  appData.getExpensesMonth = function () {
+  let getExpensesMonth = function () {
     for(let item in appData.expenses){
         appData.expensesMonth += appData.expenses[item];
     }
     return appData.expensesMonth;
 };
-appData.getExpensesMonth();
+  getExpensesMonth();
 
 appData.getBudget = function () {
     appData.budgetMonth = appData.budget - appData.expensesMonth;
@@ -80,11 +80,11 @@ getTargetMonth();
 
   
   let getStatusIncome = function(){
-    if(budgetDay > 800) {
+    if(appData.budgetDay > 800) {
       return ('Высокий уровень дохода');
-  }else if(budgetDay > 300 || budgetDay < 800) {
+  }else if(appData.budgetDay > 300 || appData.budgetDay < 800) {
       return ('Средний уровень дохода');
-  } else if(budgetDay > 0 || budgetDay < 300){
+  } else if(appData.budgetDay > 0 || appData.budgetDay < 300){
       return ('Низкий уровень дохода');
   }else {
       return ('Что то пошло не так');
