@@ -20,12 +20,14 @@ console.log('img: ', img);
  let span = document.querySelector('.adv');
  console.log('span: ', span);
  span.classList.remove('adv');
-let chapter = document.querySelectorAll('.book >ul');
+let chapter = document.querySelectorAll('ul')[1];
 console.log('chapter: ', chapter);
+let li = chapter.querySelectorAll('li');
 
 
-  
-console.log('chapter: ', chapter, book[0]);
+chapter.insertBefore(li[6], li[4]);
+chapter.insertBefore(li[8], li[4]); 
+chapter.insertBefore(li[2], li[10]);
 
 
 
