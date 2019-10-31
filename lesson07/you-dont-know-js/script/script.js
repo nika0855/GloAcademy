@@ -36,6 +36,13 @@ chapter4.insertBefore(li4[9], li4[2]);
 chapter4.insertBefore(li4[2], li4[5]);
 chapter4.insertBefore(li4[5], li4[8]);
 
+let newElem = document.createElement('li');
+newElem.textContent = 'Глава 8: За пределами ES6';
+let chapter6 = document.querySelectorAll('ul')[5];
+console.log('chapter6: ', chapter6);
 
+chapter6.appendChild(newElem);
+let li6 = chapter6.querySelectorAll('li');
+chapter6.insertBefore(li6[10], li6[9]);
 
 
