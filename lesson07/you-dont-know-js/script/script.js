@@ -1,34 +1,40 @@
 'use strict';
 
 let books = document.querySelector('.books');
-console.log('books: ', books);
+
 let book = document.querySelectorAll('.book');
-console.log('book: ', book);
+
 books.insertBefore(book[1], book[0]);
 books.insertBefore(book[2], null);
 books.insertBefore(book[4], book[3]);
-console.log('books: ', books);
+
 
 let img = document.querySelector('body');
-console.log('img: ', img);
+
  img.style.backgroundImage = 'url("./image/you-dont-know-js.jpg")';
 
  let h2 = document.querySelectorAll('h2 > a');
- console.log('h2: ', h2);
+ 
  h2[2].textContent =  "Книга 3. this и Прототипы Объектов";
 
  let span = document.querySelector('.adv');
- console.log('span: ', span);
+
  span.classList.remove('adv');
-let chapter = document.querySelectorAll('ul')[1];
-console.log('chapter: ', chapter);
-let li = chapter.querySelectorAll('li');
+let chapter2 = document.querySelectorAll('ul')[1];
+
+let li = chapter2.querySelectorAll('li');
+
+chapter2.insertBefore(li[6], li[4]);
+chapter2.insertBefore(li[8], li[4]); 
+chapter2.insertBefore(li[2], li[10]);
+
+let chapter4 = document.querySelectorAll('ul')[4];
+let li4 = chapter4.querySelectorAll('li');
 
 
-chapter.insertBefore(li[6], li[4]);
-chapter.insertBefore(li[8], li[4]); 
-chapter.insertBefore(li[2], li[10]);
-
+chapter4.insertBefore(li4[9], li4[2]);
+chapter4.insertBefore(li4[2], li4[5]);
+chapter4.insertBefore(li4[5], li4[8]);
 
 
 
