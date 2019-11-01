@@ -17,9 +17,11 @@ let img = document.querySelector('body');
  
  h2[2].textContent =  "Книга 3. this и Прототипы Объектов";
 
- let span = document.querySelector('.adv');
+ let adv = document.querySelector('.adv');
+ let span = document.querySelector('.adv > span');
+ 
+  adv.remove(span);
 
- span.classList.remove('adv');
 let chapter2 = document.querySelectorAll('ul')[1];
 
 let li = chapter2.querySelectorAll('li');
