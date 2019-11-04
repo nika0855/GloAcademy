@@ -59,13 +59,14 @@ let start = document.getElementById('start'),
         
         appData.getExpensesMonth();
         appData.getBudget();
-        
+        appData.getAddExpenses();
         appData.showResult();
       },
       showResult: function() {
         budgetMonthValue.value = appData.budgetMonth;
         budgetDayValue.value = appData.budgetDay;
         expensesMonthValue.value = appData.expensesMonth;
+        additionalExpensesValue.value = appData.addExpenses.join(', ');
       },
       addExpensesBlock: function() {
         
@@ -86,6 +87,16 @@ let start = document.getElementById('start'),
          }
         });
         
+      },
+
+      getAddExpenses: function() {
+        let addExpenses = additionalExpensesItem.value.split(',');
+        addExpenses.forEach(function(item) {
+          item = item.trim();
+          if(item !== '') {
+            appData.addExpenses.push(item);
+          }
+        });
       },
       asking: function(){
         let  addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', "car, food");
