@@ -23,7 +23,7 @@ let start = document.getElementById('start'),
     depositAmount = document.querySelector('.deposit-amount'),
     depositPercent = document.querySelector('.deposit-percent'),
     targetAmount = document.querySelector('.target-amount'),
-    incomeItem = document.querySelectorAll('.income-items'),
+    incomeItems = document.querySelectorAll('.income-items'),
     periodSelect = document.querySelector('.period-select');
 
 
@@ -63,7 +63,7 @@ let start = document.getElementById('start'),
       },
       showResult: function() {
         budgetMonthValue.value = appData.budgetMonth;
-        budgetDayValue.value = appData.budgetDay;
+        budgetDayValue.value = Math.ceil(appData.budgetDay);
         expensesMonthValue.value = appData.expensesMonth;
         additionalExpensesValue.value = appData.addExpenses.join(', ');
         additionalIncomeValue.value = appData.addIncome.join(', ');
@@ -79,6 +79,14 @@ let start = document.getElementById('start'),
           expensesPlus.style.display = 'none';
         }
       },
+      addIncomeBlock: function() {
+        let cloneIncomeItem = incomeItems[0].cloneNode(true);
+        incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
+        incomeItems = document.querySelectorAll('.income-items');
+        if(incomeItems.length === 3) {
+          incomePlus.style.display = 'none';
+        }
+      },
 
       getExpenses: function() {
         expensesItems.forEach(function(item) {
@@ -92,11 +100,14 @@ let start = document.getElementById('start'),
       },
 
       getIncome: function() {
-        if(confirm('Есть ли у вас дополнительный источник заработка?')) {
-          let itemIncome = prompt('Какой?', "Танцию");
-          let cashIncome = prompt('Сколько в месяц зарабатываешь на этом?', 10000);
-          appData.income[itemIncome] = cashIncome;
-        }
+        incomeItems.forEach(function(item) {
+          let itemIncome = item.querySelector('.income-title').value;
+          let cashIncome = item.querySelector('.income-amount').value;
+            if(itemIncome !== '' && cashIncome !== '') {
+              appData.income[itemIncome] = cashIncome;
+            }
+          
+        });
 
         for(let key in appData.income) {
           appData.incomeMonth += +appData.income[key];
@@ -166,6 +177,7 @@ let start = document.getElementById('start'),
       start.addEventListener('click', appData.start);
 
       expensesPlus.addEventListener('click', appData.addExpensesBlock);
+      incomePlus.addEventListener('click', appData.addIncomeBlock);
     
       appData.getTargetMonth();
       appData.getStatusIncome();
