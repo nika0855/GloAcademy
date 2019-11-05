@@ -24,6 +24,8 @@ let start = document.getElementById('start'),
     depositPercent = document.querySelector('.deposit-percent'),
     targetAmount = document.querySelector('.target-amount'),
     incomeItems = document.querySelectorAll('.income-items'),
+    periodAmount = document.querySelector('.period-amount'),
+    cancel = document.getElementById('cancel'),
     periodSelect = document.querySelector('.period-select');
 
 
@@ -68,7 +70,10 @@ let start = document.getElementById('start'),
         additionalExpensesValue.value = appData.addExpenses.join(', ');
         additionalIncomeValue.value = appData.addIncome.join(', ');
         targetMonthValue.value = Math.ceil(appData.getTargetMonth());
+        // incomePeriodValue.value = appData.calcPeriod();
+        periodSelect.addEventListener('input', function () {
         incomePeriodValue.value = appData.calcPeriod();
+        });
       },
       addExpensesBlock: function() {
         
@@ -132,12 +137,6 @@ let start = document.getElementById('start'),
           }
         });
       },
-      // asking: function(){
-      //   let  addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', "car, food");
-      //      addExpenses.toLowerCase().split(' ,');
-      //     appData.deposit = confirm('Есть ли у вас депозит в банке?');
-          
-      // },
 
        getExpensesMonth : function () {
         for(let item in appData.expenses){
@@ -156,6 +155,12 @@ let start = document.getElementById('start'),
      getTargetMonth : function(){
        return targetAmount.value / appData.budgetMonth;
     },
+  
+    calcPeriod: function () {
+      
+      return appData.budgetMonth * periodSelect.value;
+      
+  },
 
      getStatusIncome : function(){
       if(appData.budgetDay > 800) {
@@ -167,10 +172,8 @@ let start = document.getElementById('start'),
     }else {
         return ('Что то пошло не так');
     }
-    },
-    calcPeriod: function() {
-      return appData.budgetMonth * periodSelect.value;
     }
+    
           
       };
 
@@ -178,6 +181,10 @@ let start = document.getElementById('start'),
 
       expensesPlus.addEventListener('click', appData.addExpensesBlock);
       incomePlus.addEventListener('click', appData.addIncomeBlock);
+
+      periodSelect.addEventListener('input', function () {
+      periodAmount.innerHTML = periodSelect.value;  
+   }) ;
     
       appData.getTargetMonth();
       appData.getStatusIncome();
