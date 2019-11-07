@@ -26,6 +26,9 @@ let start = document.getElementById('start'),
     incomeItems = document.querySelectorAll('.income-items'),
     periodAmount = document.querySelector('.period-amount'),
     cancel = document.getElementById('cancel'),
+    amountItems = document.querySelectorAll('.data input[class$="-amount"]'),
+    data = document.querySelector('.data'),
+    dataInputs = data.querySelectorAll('input'),
     periodSelect = document.querySelector('.period-select');
 
 
@@ -161,6 +164,30 @@ let start = document.getElementById('start'),
       return appData.budgetMonth * periodSelect.value;
       
   },
+  stopInput: function () {
+    start.style.display = 'none';
+    cancel.style.display = 'block';
+    dataInputs = data.querySelectorAll('input');
+    dataInputs.forEach(function (item) {
+        item.setAttribute('disabled', 'disabled');
+    });
+    periodSelect.removeAttribute('disabled');
+},
+  checkSalaryAmount: function () {
+    if (salaryAmount.value == '') {
+        start.setAttribute('disabled', 'disabled');
+        start.style.pointerEvents = 'none';
+    } else {
+        start.removeAttribute('disabled');
+        start.style.pointerEvents = null;
+    }
+},
+
+    inputAmount: function () {
+    amountItems.forEach(function (item) {
+        item.addEventListener('focus', appData.intputNumValidation);
+    });
+},
 
      getStatusIncome : function(){
       if(appData.budgetDay > 800) {
@@ -180,11 +207,16 @@ let start = document.getElementById('start'),
       start.addEventListener('click', appData.start);
 
       expensesPlus.addEventListener('click', appData.addExpensesBlock);
+
       incomePlus.addEventListener('click', appData.addIncomeBlock);
 
+      salaryAmount.addEventListener('input', appData.checkSalaryAmount);
+      
       periodSelect.addEventListener('input', function () {
       periodAmount.innerHTML = periodSelect.value;  
    }) ;
+      start.addEventListener('click', appData.start);
+      start.addEventListener('click', appData.stopInput);
     
       appData.getTargetMonth();
       appData.getStatusIncome();
