@@ -29,6 +29,7 @@ let start = document.getElementById('start'),
     amountItems = document.querySelectorAll('.data input[class$="-amount"]'),
     data = document.querySelector('.data'),
     dataInputs = data.querySelectorAll('input'),
+    control = document.querySelectorAll('.control')[0],
     periodSelect = document.querySelector('.period-select');
 
 
@@ -62,6 +63,7 @@ let start = document.getElementById('start'),
         this.getAddExpenses();
         this.getAddIncome();
         this.getBudget();
+        this.getReset();
         this.showResult();
         
       },
@@ -163,6 +165,11 @@ let start = document.getElementById('start'),
       return appData.budgetMonth * periodSelect.value;
       
   },
+
+  getReset: function(){
+    start.style.display = 'none';
+    cancel.style.display = 'block';
+},
   stopInput: function () {
     start.style.display = 'none';
     cancel.style.display = 'block';
@@ -198,7 +205,45 @@ let start = document.getElementById('start'),
     }else {
         return ('Что то пошло не так');
     }
-    }
+    },
+
+    fullReset: function(){
+      start.style.display = 'block';
+      cancel.style.display = 'none';
+
+      appData.budget = 0;
+      appData.budgetDay = 0;
+      appData.budgetMonth = 0;
+      appData.income = {};
+      appData.addIncome = [];
+      appData.incomeMonth = 0;
+      appData.expenses = {};
+      appData. addExpenses = [];
+      appData.expensesMonth = 0;
+      appData.deposit = false;
+      appData.percentDeposit = 0;
+      appData.moneyDeposit = 0;
+      
+      for(let i = 1; incomeItems.length > i; i++){
+          incomeItems[i].parentNode.removeChild(incomeItems[i]);
+      }
+      incomePlus.style.display = 'block';
+      
+      for(let i = 1; expensesItems.length > i; i++){
+          expensesItems[i].parentNode.removeChild(expensesItems[i]);
+      }
+      expensesPlus.style.display = 'block';
+
+      let dataChildren = document.querySelectorAll('input, button');
+      dataChildren.forEach(function(elem){
+          elem.removeAttribute('disabled');
+          elem.value = null;
+      });
+      periodSelect.value = 1;
+      periodAmount.textContent = periodSelect.value;
+      depositCheck.checked = false;
+      
+  },
     
           
       };
@@ -216,6 +261,7 @@ let start = document.getElementById('start'),
    }) ;
      
       start.addEventListener('click', appData.stopInput);
+      cancel.addEventListener('click', appData.fullReset);
     
       appData.getTargetMonth();
       appData.getStatusIncome();
