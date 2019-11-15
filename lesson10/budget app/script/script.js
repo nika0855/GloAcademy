@@ -215,18 +215,18 @@ let start = document.getElementById('start'),
       start.style.display = 'block';
       cancel.style.display = 'none';
 
-      appData.budget = 0;
-      appData.budgetDay = 0;
-      appData.budgetMonth = 0;
-      appData.income = {};
-      appData.addIncome = [];
-      appData.incomeMonth = 0;
-      appData.expenses = {};
-      appData. addExpenses = [];
-      appData.expensesMonth = 0;
-      appData.deposit = false;
-      appData.percentDeposit = 0;
-      appData.moneyDeposit = 0;
+      this.budget = 0;
+      this.budgetDay = 0;
+      this.budgetMonth = 0;
+      this.income = {};
+      this.addIncome = [];
+      this.incomeMonth = 0;
+      this.expenses = {};
+      this. addExpenses = [];
+      this.expensesMonth = 0;
+      this.deposit = false;
+      this.percentDeposit = 0;
+      this.moneyDeposit = 0;
       
       for(let i = 1; incomeItems.length > i; i++){
           incomeItems[i].parentNode.removeChild(incomeItems[i]);
@@ -249,29 +249,29 @@ let start = document.getElementById('start'),
       
   };
     
-  const appData = new AppData(); 
-  console.log(appData);
+  
+ 
+      AppData.prototype.eventFull = function () {
+        start.addEventListener('click', this.start.bind(this));
+        expensesPlus.addEventListener('click', this.addExpensesBlock.bind(this));
+        incomePlus.addEventListener('click', this.addIncomeBlock.bind(this));
+        salaryAmount.addEventListener('input', this.checkSalaryAmount);
+        periodSelect.addEventListener('input', function () {
+        periodAmount.innerHTML = periodSelect.value;  
+        start.addEventListener('click', appData.stopInput);
+        cancel.addEventListener('click', appData.fullReset.bind(this));
+
+      });
       
-
-      start.addEventListener('click', appData.start.bind(appData));
-
-      expensesPlus.addEventListener('click', appData.addExpensesBlock);
-
-      incomePlus.addEventListener('click', appData.addIncomeBlock);
-
-      salaryAmount.addEventListener('input', appData.checkSalaryAmount);
+   };
+     const appData = new AppData();
+     appData.eventFull();
       
-      periodSelect.addEventListener('input', function () {
-      periodAmount.innerHTML = periodSelect.value;  
-   }) ;
-     
-      start.addEventListener('click', appData.stopInput);
-      cancel.addEventListener('click', appData.fullReset.bind(appData));
     
-      appData.getTargetMonth();
-      appData.getStatusIncome();
+      // appData.getTargetMonth();
+      // appData.getStatusIncome();
 
-      
+       
     
       // console.log('Расходы за месяц: ' + appData.expensesMonth);
       // console.log('За какой период будет достигнута цель (в месяцах) - ' + Math.ceil(appData.period));
