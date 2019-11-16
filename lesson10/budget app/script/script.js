@@ -69,8 +69,9 @@ let start = document.getElementById('start'),
 
         this.budget = +salaryAmount.value;
 
-        this.getExpenses();
-        this.getIncome();
+        // this.getExpInc();
+       this.getExpenses();
+       this.getIncome();
         this.getExpensesMonth(); 
         this.getInfoDeposit();
         this.getAddExpenses();
@@ -113,7 +114,7 @@ let start = document.getElementById('start'),
 
       AppData.prototype.getIncome = function() {
         const _this = this;
-        incomeItems.forEach(function(item) {
+        expensesItems.forEach(function(item) {
           let itemIncome = item.querySelector('.income-title').value;
           let cashIncome = item.querySelector('.income-amount').value;
             if(itemIncome !== '' && cashIncome !== '') {
@@ -126,6 +127,24 @@ let start = document.getElementById('start'),
           this.incomeMonth += +this.income[key];
         }
       };
+
+      // AppData.prototype.getExpInc = function() {
+      //   const count = item => {
+      //     const startStr = item.className.split('-')[0];
+        
+      //     const itemTitle = item.querySelector(`.${startStr}-title`).value;
+      //     const itemAmount = item.querySelector(`.${startStr}-amount`).value;
+      //     if(itemTitle !== '' && itemAmount !== '') {
+      //       this[startStr][itemTitle] = itemAmount;
+      //     }
+      //   }
+      //   incomeItems.forEach(count);
+      //   expensesItems.forEach(count);
+
+      //   for(let key in this.income) {
+      //     this.incomeMonth += +this.income[key];
+      //   }
+      // }
 
       AppData.prototype.getInfoDeposit = function () {
         if (this.deposit) {
@@ -302,7 +321,7 @@ let start = document.getElementById('start'),
      appData.eventFull();
       
     
-       appData.getTargetMonth();
+      //  appData.getTargetMonth();
       //  appData.getStatusIncome();
 
        
