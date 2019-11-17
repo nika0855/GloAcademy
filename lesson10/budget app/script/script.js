@@ -69,7 +69,7 @@ let start = document.getElementById('start'),
 
         this.budget = +salaryAmount.value;
 
-        // this.getExpInc();
+        this.getExpInc();
        this.getExpenses();
        this.getIncome();
         this.getExpensesMonth(); 

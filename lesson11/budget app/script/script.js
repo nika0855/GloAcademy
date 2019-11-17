@@ -30,6 +30,7 @@ let start = document.getElementById('start'),
     data = document.querySelector('.data'),
     dataInputs = data.querySelectorAll('input'),
     control = document.querySelectorAll('.control')[0],
+    depositBank = document.querySelector('.deposit-bank'),
     periodSelect = document.querySelector('.period-select');
 
 
@@ -262,14 +263,37 @@ let start = document.getElementById('start'),
         cancel.addEventListener('click', appData.fullReset.bind(this));
 
       });
+
+      depositCheck.addEventListener('change', function() {
+        if(depositCheck.checked){
+          depositBank.style.display = 'inline-block';
+          depositAmount.style.display = 'inline-block';
+          appData.deposit = 'true';
+          depositBank.addEventListener('change', function() {
+            let selectIndex = this.options[this.selectedIndex].value;
+            if(selectIndex === 'other') {
+              depositPercent.style.display = 'inline-block';
+              depositPercent.value = '';
+            }else {
+              depositPercent.style.display = 'none';
+              depositPercent.value = selectIndex;
+            }
+          });
+        }else {
+          depositBank.style.display = 'none';
+          depositAmount.style.display = 'none';
+          depositAmount.value = '';
+          appData.deposit = 'false';
+        }
+      });
       
    };
      const appData = new AppData();
      appData.eventFull();
       
     
-      // appData.getTargetMonth();
-      // appData.getStatusIncome();
+      //  appData.getTargetMonth();
+      //  appData.getStatusIncome();
 
        
     
