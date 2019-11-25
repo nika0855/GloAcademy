@@ -1,6 +1,7 @@
 
 let worm = document.querySelector('.worm'),
     airplane = document.querySelector('.airplane'),
+    button = document.querySelector('.button'),
     count = 0;
 //setTimeout
 /*let wormDown = function() {
@@ -52,7 +53,7 @@ let flyAnimate = function() {
   
 };
 let animate = false;
-document.addEventListener('click', () => {
+button.addEventListener('click', () => {
   if(animate) {
     flyInterval = requestAnimationFrame(flyAnimate);
     animate = false;

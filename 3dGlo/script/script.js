@@ -40,5 +40,5 @@ window.addEventListener('DOMContentLoaded', () => {
       updateClock();
   }
     
-    setInterval(countTimer, 1000, '26 nov 2019');
+    setInterval(countTimer, 1000, '2020 12 25');
 });

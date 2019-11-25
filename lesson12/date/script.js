@@ -10,7 +10,7 @@ const timesDay = document.querySelector('#times-day'),
     
     function getTimeRemaining() {
         let date = new Date(),
-            dateStop = new Date(2020, 0, 1).getTime(),
+            dateStop = new Date(2019, 11, 25).getTime(),
             dateNow = new Date().getTime(),
             timeRemaining = (dateStop - dateNow) / 1000,
             seconds = Math.floor(timeRemaining % 60),
@@ -44,7 +44,7 @@ function output(){
          timer = getTimeRemaining();
        currentTime.style.color = 'red';
         currentTime.textContent = `Текущее время: ${timer.timeToString}`;
-        setInterval(currentDateAndTime, 1000);    
+        setTimeout(currentDateAndTime, 1000);    
     }
     currentDateAndTime();
 
