@@ -51,11 +51,12 @@ const toggleMenu = () => {
       menuItems = menu.querySelectorAll('ul>li');
 
   const handlerMenu = () => {
-    if(!menu.style.transform || menu.style.transform === 'translate(-100%)') {
-      menu.style.transform = 'translate(0)';
-    }else {
-      menu.style.transform ='translate(-100%)';
-    }
+    // if(!menu.style.transform || menu.style.transform === 'translate(-100%)') {
+    //   menu.style.transform = 'translate(0)';
+    // }else {
+    //   menu.style.transform ='translate(-100%)';
+    // }
+    menu.classList.toggle('active-menu');
   };
 
   btnMenu.addEventListener('click', handlerMenu);
@@ -69,6 +70,26 @@ const toggleMenu = () => {
 };
 
 toggleMenu();
+
+//popup
+
+const togglePopUp = () => {
+  const popup = document.querySelector('.popup'),
+      popupBtn = document.querySelectorAll('.popup-btn'),
+      popUpClose = document.querySelector('.popup-close');
+
+  popupBtn.forEach((elem) => {
+    elem.addEventListener('click', () => {
+      popup.style.display = 'block';
+    });
+  });
+
+  popUpClose.addEventListener('click', () => {
+    popup.style.display = 'none';
+  })
+};
+
+togglePopUp();
 
 });
 
