@@ -51,12 +51,12 @@ const toggleMenu = () => {
       menuItems = menu.querySelectorAll('ul>li');
 
   const handlerMenu = () => {
-    // if(!menu.style.transform || menu.style.transform === 'translate(-100%)') {
-    //   menu.style.transform = 'translate(0)';
-    // }else {
-    //   menu.style.transform ='translate(-100%)';
-    // }
-    menu.classList.toggle('active-menu');
+    if(!menu.style.transform || menu.style.transform === 'translate(-100%)') {
+      menu.style.transform = 'translate(0)';
+    }else {
+      menu.style.transform ='translate(-100%)';
+    }
+    // menu.classList.toggle('active-menu');
   };
 
   btnMenu.addEventListener('click', handlerMenu);
@@ -73,20 +73,35 @@ toggleMenu();
 
 //popup
 
+let popupContent = document.querySelector('.popup-content'),
+    popupBtn = document.querySelectorAll('.popup-btn'),
+    popup = document.querySelector('.popup'),
+    count = 0;
+let flyInterval ;
+let flyAimate = function() {
+  flyInterval = requestAnimationFrame(flyAimate);
+  count++;
+  if(count < 100) {
+    popupContent.style.top = count*2 + 'px';
+    popup.style.display = 'block';
+  }else if(count > 300){
+    cancelAnimationFrame(flyInterval);
+  }
+  console.log(count);
+};
+
+flyInterval = requestAnimationFrame(flyAimate);
+
 const togglePopUp = () => {
   const popup = document.querySelector('.popup'),
-      popupBtn = document.querySelectorAll('.popup-btn'),
+      // popupBtn = document.querySelectorAll('.popup-btn'),   
       popUpClose = document.querySelector('.popup-close');
 
-  popupBtn.forEach((elem) => {
-    elem.addEventListener('click', () => {
-      popup.style.display = 'block';
-    });
-  });
+  
 
   popUpClose.addEventListener('click', () => {
     popup.style.display = 'none';
-  })
+  });
 };
 
 togglePopUp();
