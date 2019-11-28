@@ -74,12 +74,13 @@ toggleMenu();
 //popup
 
 let popupContent = document.querySelector('.popup-content'),
-    popupBtn = document.querySelectorAll('.popup-btn'),
+    // popupBtn = document.querySelectorAll('.popup-btn'),
+    button = document.querySelector('button'),
     popup = document.querySelector('.popup'),
     count = 0;
 let flyInterval ;
-let flyAimate = function() {
-  flyInterval = requestAnimationFrame(flyAimate);
+let flyAnimate = function() {
+  flyInterval = requestAnimationFrame(flyAnimate);
   count++;
   if(count < 100) {
     popupContent.style.top = count*2 + 'px';
@@ -90,11 +91,22 @@ let flyAimate = function() {
   console.log(count);
 };
 
-flyInterval = requestAnimationFrame(flyAimate);
+let animate = false,
+    popupBtn = document.querySelectorAll('.popup-btn');
+    
+  popupBtn.addEventListener('click', () => {
+  if(animate) {
+    flyInterval = requestAnimationFrame(flyAnimate);
+    animate = false;
+  } else {
+    animate = true;
+    cancelAnimationFrame(flyInterval);
+  }
+  
+});
 
 const togglePopUp = () => {
-  const popup = document.querySelector('.popup'),
-      // popupBtn = document.querySelectorAll('.popup-btn'),   
+  const popup = document.querySelector('.popup'),   
       popUpClose = document.querySelector('.popup-close');
 
   
