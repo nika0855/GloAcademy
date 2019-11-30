@@ -6,7 +6,7 @@ let buttons = document.querySelectorAll('.button');
       addButton = document.querySelector('.add__button');
 
 const changeText = (e) => {
-    console.log(e.target.textContent);
+    content.textContent = event.target.textContent;
 };
 
 buttons.forEach((elem) => {
