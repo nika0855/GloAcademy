@@ -93,8 +93,8 @@ let flyAnimate = function() {
 
 let animate = false,
     popupBtn = document.querySelectorAll('.popup-btn');
-    
-  popupBtn.addEventListener('click', () => {
+    for(let i = 0; i < popupBtn.length; i++) {
+      popupBtn[i].addEventListener('click', () => {
   if(animate) {
     flyInterval = requestAnimationFrame(flyAnimate);
     animate = false;
@@ -104,6 +104,8 @@ let animate = false,
   }
   
 });
+    }
+  
 
 const togglePopUp = () => {
   const popup = document.querySelector('.popup'),   
@@ -117,6 +119,47 @@ const togglePopUp = () => {
 };
 
 togglePopUp();
+
+// ТАБЫ
+const tabs = () => {
+  const tabHeader = document.querySelector('.service-header'),
+    tab = tabHeader.querySelectorAll('.service-header-tab'),
+    tabContent = document.querySelectorAll('.service-tab');
+
+    const toggleTabContent = (index) => {
+      for(let i = 0; i < tabContent.length; i++) {
+        if(index === i) {
+          tab[i].classList.add('active');
+          tabContent[i].classList.remove('d-none');
+        }else {
+          tab[i].classList.remove('active');
+          tabContent[i].classList.add('d-none');
+        }
+      }
+    };
+
+    tabHeader.addEventListener('click', (event) => {
+      let target = event.target;
+      console.log('target: ', target);
+      while(target !== tabHeader) {
+        
+        if(target.classList.contains('service-header-tab')) {
+        tab.forEach((item, i) => {
+          if(item === target) {
+            toggleTabContent(i);
+          }
+        });
+        return;
+        }
+        target = target.parentNode;
+      }
+      
+
+      
+    });
+};
+
+tabs();
 
 });
 
