@@ -99,11 +99,11 @@ let animate = false,
       popUpBtn[i].addEventListener('click', () => {
         console.log('popUpBtn[i]: ', popUpBtn[i]);
 
-  if(animate) {
+  if(!animate) {
     flyInterval = requestAnimationFrame(flyAnimate);
-    animate = false;
+    
   } else {
-    animate = true;
+    animate = false;
     cancelAnimationFrame(flyInterval);
   }
   
