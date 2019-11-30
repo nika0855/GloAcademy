@@ -85,8 +85,10 @@ let flyAnimate = function() {
   if(count < 100) {
     popupContent.style.top = count*2 + 'px';
     popUp.style.display = 'block';
+    document.body.style.overflow = 'hidden';
   }else if(count > 150){
     cancelAnimationFrame(flyInterval);
+    document.body.style.overflow = 'hidden';
   }
   console.log(count);
 };
@@ -119,18 +121,28 @@ const togglePopUp = () => {
   //   });
   // });
  
-  popUpClose.addEventListener('click', () => {
-    popUp.style.display = 'none';
-    count = 0;
-  });
+  // popUpClose.addEventListener('click', () => {
+  //   popUp.style.display = 'none';
+  //   count = 0;
+  // });
 
   popUp.addEventListener('click', (event) => {
     let target = event.target;
-    target = target.closest('.popup-content');
+
+    if(target.classList.contains('popup-close')) {
+      popUp.style.display = 'none';
+      document.body.style.overflow = '';
+      count= 0;
+    }else {
+      target = target.closest('.popup-content');
 
     if(!target) {
       popUp.style.display = 'none';
+      document.body.style.overflow = '';
+      count = 0;
     }
+    }
+    
   });
 };
 
@@ -169,8 +181,6 @@ const tabs = () => {
         }
         target = target.parentNode;
       }
-      
-
       
     });
 };
