@@ -72,81 +72,49 @@ const toggleMenu = () => {
 toggleMenu();
 
 //popup
-
-let popupContent = document.querySelector('.popup-content'),
-    // popupBtn = document.querySelectorAll('.popup-btn'),
-    button = document.querySelector('button'),
-    popUp = document.querySelector('.popup'),
-    count = 0;
-let flyInterval ;
-let flyAnimate = function() {
-  flyInterval = requestAnimationFrame(flyAnimate);
-  count++;
-  if(count < 100) {
-    popupContent.style.top = count*2 + 'px';
-    popUp.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-  }else if(count > 150){
-    cancelAnimationFrame(flyInterval);
-    document.body.style.overflow = 'hidden';
-  }
-  console.log(count);
-};
-
-let animate = false,
-    popUpBtn = document.querySelectorAll('.popup-btn');
-    for(let i = 0; i < popUpBtn.length; i++) {
-      popUpBtn[i].addEventListener('click', () => {
-        console.log('popUpBtn[i]: ', popUpBtn[i]);
-
-  if(!animate) {
-    flyInterval = requestAnimationFrame(flyAnimate);
-    
-  } else {
-    animate = false;
-    cancelAnimationFrame(flyInterval);
-  }
-  
-});
-    }
-  
-
 const togglePopUp = () => {
-  const popUp = document.querySelector('.popup'),
-  popUpBtn = document.querySelectorAll('.popup-btn'),   
-      popUpClose = document.querySelector('.popup-close');
-  // popUpBtn.forEach((elem) => {
-  //   elem.addEventListener('click', () => {
-  //     popUp.style.display = 'block';
-  //   });
-  // });
- 
-  // popUpClose.addEventListener('click', () => {
-  //   popUp.style.display = 'none';
-  //   count = 0;
-  // });
+  const popupContent = document.querySelector('.popup-content'),
+    popup = document.querySelector('.popup'),
+    popupBtn = document.querySelectorAll('.popup-btn');
+   let count = 0;
 
-  popUp.addEventListener('click', (event) => {
-    let target = event.target;
+    popupBtn.forEach((elem) => {
+      elem.addEventListener('click', () => {
+        popup.style.display = 'block';
 
-    if(target.classList.contains('popup-close')) {
-      popUp.style.display = 'none';
-      document.body.style.overflow = '';
-      count= 0;
-    }else {
-      target = target.closest('.popup-content');
+        if(document.documentElement.clientWidth > 768) {
+          let popUpAnimate;
 
-    if(!target) {
-      popUp.style.display = 'none';
-      document.body.style.overflow = '';
-      count = 0;
-    }
-    }
-    
-  });
+          const addLeft = () => {
+            popupContent.style.left = 10 + '%';
+            count++;
+            popupContent.style.left = count + '%';
+            if(count < 45) {
+              requestAnimationFrame(addLeft, 5);
+            }else{
+              cancelAnimationFrame(2000);
+            }
+          };
+          popUpAnimate = requestAnimationFrame(addLeft);
+        }
+      });
+    });
+    popup.addEventListener('click', (event) => {
+      let target = event.target;
+
+      if(target.classList.contains('popup-close')) {
+        popup.style.display = 'none';
+        count = 0;
+      }else {
+        target = target.closest('.popup-content');
+        if(!target) {
+          popup.style.display = 'none';
+          count = 0;
+        }
+      }
+    });
 };
-
-togglePopUp();
+  togglePopUp();
 
 // ТАБЫ
 const tabs = () => {
