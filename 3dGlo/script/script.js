@@ -43,33 +43,37 @@ window.addEventListener('DOMContentLoaded', () => {
     setInterval(countTimer, 1000, '27 nov 2019');
 
 //Menu
-const toggleMenu = () => {
+const menu = document.querySelector('menu'),
+  btnMenu = document.querySelector('.menu'),
+  bodyM = document.querySelector('body'),
+  closeBtn = document.querySelector('.close-btn'),
+  menuItems = menu.querySelectorAll('ul>li');
 
-  const btnMenu = document.querySelector('.menu'),
-      menu = document.querySelector('menu'),
-      closeBtn = document.querySelector('.close-btn'),
-      menuItems = menu.querySelectorAll('ul>li');
+  const sandwichMenu = (e) => {
+    let target = e.target;
+    const handlerMenu = () => {
+      if(!menu.style.transform || menu.style.transform === 'translate(-100%)') {
+        menu.style.transform = 'translate(0)';
+      }else {
+        menu.style.transform ='translate(-100%)';
+      }
+      // menu.classList.toggle('active-menu');
+    };
 
-  const handlerMenu = () => {
-    if(!menu.style.transform || menu.style.transform === 'translate(-100%)') {
-      menu.style.transform = 'translate(0)';
-    }else {
-      menu.style.transform ='translate(-100%)';
+    console.log('target: ', target);
+    if(e.target.classList.contains('menu')) {
+      handlerMenu();
     }
-    // menu.classList.toggle('active-menu');
+    if(e.target.classList.contains('close-btn')) {
+      handlerMenu();
+    }
+    if(e.target.matches('li > a')) {
+      handlerMenu();
+    }
+    
   };
 
-  btnMenu.addEventListener('click', handlerMenu);
-  closeBtn.addEventListener('click', handlerMenu);
-  // for(let i = 0; i < menuItems.length; i++) {
-  //   menuItems[i].addEventListener('click', handlerMenu);
-  // }
-  menuItems.forEach((elem) => {
-    elem.addEventListener('click', handlerMenu);
-  });
-};
-
-toggleMenu();
+  bodyM.addEventListener('click', sandwichMenu);
 
 //popup
 const togglePopUp = () => {
@@ -156,5 +160,9 @@ const tabs = () => {
 tabs();
 
 });
+
+// Слайдер
+
+
 
 
