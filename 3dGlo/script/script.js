@@ -61,7 +61,7 @@ const menu = document.querySelector('menu'),
     };
 
     console.log('target: ', target);
-    if(e.target.classList.contains('menu')) {
+    if(e.target.closest('.menu')) {
       handlerMenu();
     }
     if(e.target.classList.contains('close-btn')) {
