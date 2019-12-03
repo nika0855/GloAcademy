@@ -13,15 +13,15 @@ window.addEventListener('DOMContentLoaded', () => {
         timeRemaining = (dateStop - dateNow) / 1000,
         seconds = Math.floor(timeRemaining % 60),
         minutes = Math.floor(timeRemaining / 60) % 60,
-        hours = Math.floor((timeRemaining / 60 / 60) % 24),
-        days = Math.floor(timeRemaining / 60 / 60 / 24);
+        hours = Math.floor((timeRemaining / 60 / 60) );
+        // days = Math.floor(timeRemaining / 60 / 60 / 24);
         return {timeRemaining, hours, minutes, seconds};   
     }
 
       function updateClock() {
         let timer = getTimeRemaining();
 
-        timerHourse.textContent = (`0${timer.hours}`).slice(-2);
+        timerHourse.textContent = (`0${timer.hours}`).slice(-3);
         timerMinutes.textContent = (`0${timer.minutes}`).slice(-2);
         timerSeconds.textContent = (`0${timer.seconds}`).slice(-2);
 
@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', () => {
       updateClock();
   }
     
-    setInterval(countTimer, 1000, '27 nov 2019');
+    setInterval(countTimer, 1000, '5 dec 2019');
 
 //Menu
 const menu = document.querySelector('menu'),
@@ -60,7 +60,7 @@ const menu = document.querySelector('menu'),
       // menu.classList.toggle('active-menu');
     };
 
-    console.log('target: ', target);
+    
     if(e.target.closest('.menu')) {
       handlerMenu();
     }
@@ -140,7 +140,7 @@ const tabs = () => {
 
     tabHeader.addEventListener('click', (event) => {
       let target = event.target;
-      console.log('target: ', target);
+      
       while(target !== tabHeader) {
         
         if(target.classList.contains('service-header-tab')) {
@@ -159,9 +159,39 @@ const tabs = () => {
 
 tabs();
 
+// Слайдер
+
+const slider = () => {
+  const slide = document.querySelectorAll('.portfolio-item'),
+  btn = document.querySelectorAll('portfolio-btn'),
+  dot = document.querySelectorAll('.dot'),
+  slider = document.querySelector('.portfolio-content');
+
+  let currentSlide = 0;
+
+  const autoPlaySlide = () => {
+
+    slide[currentSlide].classList.remove('portfolio-item-active');
+    currentSlide++;
+    slide[currentSlide].classList.add('portfolio-item-active');
+  };
+
+  const startSlide = () => {
+
+  };
+
+  const stopSlide = () => {
+
+  };
+
+
+};
+
+slider();
+
 });
 
-// Слайдер
+
 
 
 
