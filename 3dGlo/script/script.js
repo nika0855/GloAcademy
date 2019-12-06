@@ -164,11 +164,30 @@ tabs();
 const slider = () => {
   const slide = document.querySelectorAll('.portfolio-item'),
   btn = document.querySelectorAll('portfolio-btn'),
-  dot = document.querySelectorAll('.dot'),
+   dot = document.querySelectorAll('.dot'),
+   dots = document.querySelector('.portfolio-dots'),
+   portfolioDots = document.querySelector('.portfolio-dots'),
   slider = document.querySelector('.portfolio-content');
 
-  let currentSlide = 0;
-
+  let currentSlide = 0,
+  interval;
+  
+  
+   function addDot() {
+     const newDot = currentSlide;
+  for(let i = 0; i < slide.length-1; i++) {
+   let currentSlide = 1 ;
+   currentSlide += currentSlide + i;
+    console.log(currentSlide);
+  }
+ let dot = document.createElement('li');
+  dot.className = 'dot';
+  dots.append(dot);
+  
+   }
+  
+ addDot();
+ 
   const autoPlaySlide = () => {
 
     slide[currentSlide].classList.remove('portfolio-item-active');
