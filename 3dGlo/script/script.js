@@ -290,6 +290,24 @@ const replaceImg = () => {
 };
 replaceImg () ;
 
+//регулярка
+
+const validation = (item) => {
+  let itemAttrName = item.getAttribute('name');
+  item.addEventListener('input', () => {
+   
+    if (item.classList.contains('calc-item')) {
+      item.value = item.value.replace(/[^\d.]/, '');
+    }
+    if (itemAttrName === 'user_name' || itemAttrName === 'user_message') {
+      item.value = item.value.replace(/[^А-Яа-яЁё\s]/, '');
+    }
+    if (itemAttrName === 'user_phone') {
+      item.value = item.value.replace(/[^0-9+]/, '');
+    }
+  });
+};
+
 
 
 
