@@ -391,7 +391,7 @@ const sendForm = () => {
         body[key] = val;
       });
 
-      if (isValidUserPhone(body.user_phone)) {
+      if (isValidUserPhone(body.userPhone)) {
         statusMessage.innerHTML = loadMessage2;
 
         postData(body, () => {
