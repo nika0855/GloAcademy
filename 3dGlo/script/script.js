@@ -359,87 +359,176 @@ const calc = (price = 100) => {
 };
 calc(100);
 
+//--------------------
+const checkForm = form => {
+  const valid = [];
+  const inputs = form.querySelectorAll('input');
+  inputs.forEach(input => {
+    if (input.value.trim() === '') {
+      valid.push(input.name);
+    }
+  });
+  return valid;
+};
+
+const formEvent = (form, event) => {
+  const target = event.target;
+
+  if (event.type === 'input') {
+    if (target.matches('input')) {
+      const itemAttrName = target.getAttribute('name');
+      if (itemAttrName === "user_name" || itemAttrName === "user_message") {
+        target.value = target.value.replace(/[^А-Яа-яёЁ\s]/, "");
+      }
+      if (itemAttrName === "user_email") {
+        target.value = target.value.replace(/[А-Яа-яёЁ\s]/, "");
+      }
+      if (itemAttrName === "user_phone") {
+        target.value = target.value.replace(/[^0-9+]/, "");
+      }
+    }
+  } else if (event.type === 'submit') {
+    checkForm(form);
+  }
+
 // send-ajax-form
-
-const formInputs = document.querySelectorAll('form input');
-
-formInputs.forEach((input) => {
-  validation(input);
-});
-
 const sendForm = () => {
+
   const errorMessage = 'Что-то пошло не так...',
-    loadMessage = 'Загрузка...',
-    successMessage = 'Спасибо! Мы скоро с Вами свяжемся!',
-    loadMessage2 = '<img src="images/preloader.gif" alt="preloader">';
+        loadMessage = 'Загрузка...',
+        successMessage = 'Спасибо! Мы скоро с Вами свяжемся!',
+        imgMessage = '<img src="images/preloader.gif" alt="preloader">'; 
+
+  const statusMessage = document.createElement('div');
+  statusMessage.style.cssText = 'font-size: 2rem; margin: 1rem 0;';
+
+  const postData = formData => fetch('./server.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: formData
+  });
+
+  const hideMessage = () => {
+    setTimeout(() => {
+      statusMessage.textContent = '';
+    }, 5000);
+  };
 
   const forms = document.querySelectorAll('form');
 
-  const statusMessage = document.createElement('div');
-  statusMessage.style.cssText = 'font-size: 2rem';
+  forms.forEach(form => {
 
-  forms.forEach((form) => {
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', event => {
       event.preventDefault();
-      event.target.querySelector('input[name="user_phone"]').style = '';
-      form.appendChild(statusMessage);
+      const target = event.target,
+        inputs = target.querySelectorAll('input'),
+        formData = new FormData(form);
 
-      const formData = new FormData(form);
-      let body = {};
-
-      formData.forEach((val, key) => {
-        body[key] = val;
+      inputs.forEach(item => {
+        item.removeAttribute('style');
       });
 
-      if (isValidUserPhone(body.userPhone)) {
-        statusMessage.innerHTML = loadMessage2;
+      form.appendChild(statusMessage);
 
-        postData(body, () => {
-          statusMessage.textContent = successMessage;
+      statusMessage.innerHTML = imgMessage;
 
-        }, (error) => {
-          statusMessage.textContent = errorMessage;
-          console.error(error);
+      const getCheckForm = checkForm(event.target);
+
+      if (getCheckForm.length !== 0) {
+        getCheckForm.forEach(elem => {
+          form.querySelector(`input[name="${elem}"]`).style.boxShadow = '0 0 20px #f74949';
+          statusMessage.textContent = 'Форма заполненна некорректно!';
         });
-        form.reset();
       } else {
-        event.target.querySelector('input[name="user_phone"]').style = 'box-shadow: 0 0 20px #f74949;';
-        // statusMessage.textContent = `Поле "Номер телефона" заполненно некорректно!`;
+        postData(formData)
+          .then(response => {
+            if (response.status !== 200) {
+              throw new Error('status network not 200');
+            }
+            form.reset();
+            statusMessage.textContent = successMessage;
+            hideMessage();
+          })
+          .catch(error => {
+            statusMessage.textContent = errorMessage;
+            hideMessage();
+            console.error(error);
+          });
       }
+
+      clearTimeout(hideMessage);
+
+    });
+
+    form.addEventListener('input', event => {
+      formEvent(form, event);
     });
   });
-
-  const isValidUserPhone = number => {
-    const pattern = /^((8|\+7))((\d{3}))[\d]{7}$/;
-    return pattern.test(number);
-  };
-
-  const postData = (body, outputData, errorData) => {
-    const request = new XMLHttpRequest();
-
-    request.addEventListener('readystatechange', () => {
-
-      if (request.readyState !== 4) {
-        return;
-      }
-
-      if (request.status === 200) {
-        outputData();
-      } else {
-        errorData(request.status);
-      }
-
-    });
-
-    request.open('POST', './server.php');
-    request.setRequestHeader('Content-Type', 'application/json');
-
-    request.send(JSON.stringify(body));
-  };
+  sendForm();
 };
 
-sendForm();
+};
+//   for(let i = 0; i < form.length; i++) {
+    
+//     form[i].addEventListener('submit', function(e) {
+//       e.preventDefault();
+//       //  form.appendChild(statusMessage);
+//      console.log(form[i]);   
+//       let formData = new FormData(this);
+//       formData = Object.fromEntries(formData);
+
+      
+//       postData(formData);
+//       // this.reset();
+//   });
+    
+// }  
+      
+    
+//       statusMessage.textContent = loadMessage;
+    
+    
+      // postData(formData)
+      // .then((response) => {
+      //   if(response.status !== 200) {
+      //       throw new Error('status network not 200');
+      //   }
+      //   console.log(response);
+      //   statusMessage.textContent = successMessage;
+      // })
+      // .catch((error) => {
+      //   statusMessage.textContent = errorMessage;
+      //   console.error(error);
+      // });
+    // });
+
+  //   const postData = (formData) => {
+  //      fetch('./server.php', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(formData)
+  //     })
+  //     .then((response) => {
+  //       if(response.status !== 200) {
+  //           throw new Error('status network not 200');
+  //       }
+  //       console.log(response);
+  //       statusMessage.textContent = successMessage;
+  //     })
+  //     .catch((error) => {
+  //       statusMessage.textContent = errorMessage;
+  //       console.error(error);
+  //     });
+  // };
 
 
+// const isValidUserPhone = number => {
+  //   const pattern = /^((8|\+7))((\d{3}))[\d]{7}$/;
+  //   return pattern.test(number);
+  // };
 
-}); 
+});
