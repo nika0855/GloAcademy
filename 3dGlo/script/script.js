@@ -292,21 +292,21 @@ replaceImg () ;
 
 //регулярка
 
-const validation = (item) => {
-  let itemAttrName = item.getAttribute('name');
-  item.addEventListener('input', () => {
+// const validation = (item) => {
+//   let itemAttrName = item.getAttribute('name');
+//   item.addEventListener('input', () => {
    
-    if (item.classList.contains('calc-item')) {
-      item.value = item.value.replace(/[^\d.]/, '');
-    }
-    if (itemAttrName === 'user_name' || itemAttrName === 'user_message') {
-      item.value = item.value.replace(/[^А-Яа-яЁё\s]/, '');
-    }
-    if (itemAttrName === 'user_phone') {
-      item.value = item.value.replace(/[^0-9+]/, '');
-    }
-  });
-};
+//     if (item.classList.contains('calc-item')) {
+//       item.value = item.value.replace(/[^\d.]/, '');
+//     }
+//     if (itemAttrName === 'user_name' || itemAttrName === 'user_message') {
+//       item.value = item.value.replace(/[^А-Яа-яЁё\s]/, '');
+//     }
+//     if (itemAttrName === 'user_phone') {
+//       item.value = item.value.replace(/[^0-9+]/, '');
+//     }
+//   });
+// };
 
 //калькулятор
 
@@ -359,13 +359,43 @@ const calc = (price = 100) => {
 };
 calc(100);
 
+	// event form
+
+  const checkForm = form => {
+    const valid = [];
+    const inputs = form.querySelectorAll('input');
+    inputs.forEach(input => {
+      if (input.value.trim() === '') {
+        valid.push(input.name);
+      }
+    });
+    return valid;
+  };
+
+  const formEvent = (form, event) => {
+    const target = event.target;
+
+    if (event.type === 'input') {
+      if (target.matches('input')) {
+        const itemAttrName = target.getAttribute('name');
+        if (itemAttrName === "user_name" || itemAttrName === "user_message") {
+          target.value = target.value.replace(/[^А-Яа-яёЁ\s]/, "");
+        }
+        if (itemAttrName === "user_email") {
+          target.value = target.value.replace(/[А-Яа-яёЁ\s]/, "");
+        }
+        if (itemAttrName === "user_phone") {
+          target.value = target.value.replace(/[^0-9+]/, "");
+        }
+      }
+    } else if (event.type === 'submit') {
+      checkForm(form);
+    }
+  };
+
+
 // send-ajax-form
 
-const formInputs = document.querySelectorAll('form input');
-
-formInputs.forEach((input) => {
-  validation(input);
-});
 
 const sendForm = () => {
   const errorMessage = 'Что-то пошло не так...',
@@ -373,71 +403,20 @@ const sendForm = () => {
     successMessage = 'Спасибо! Мы скоро с Вами свяжемся!',
     loadMessage2 = '<img src="images/preloader.gif" alt="preloader">';
 
-  const forms = document.querySelectorAll('form');
 
   const statusMessage = document.createElement('div');
   statusMessage.style.cssText = 'font-size: 2rem';
 
-  forms.forEach((form) => {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      event.target.querySelector('input[name="user_phone"]').style = '';
-      form.appendChild(statusMessage);
 
-      const formData = new FormData(form);
-      let body = {};
+const forms = document.querySelectorAll('form');
 
-      formData.forEach((val, key) => {
-        body[key] = val;
-      });
+form.addEventListener('submit', (event) => {
 
-      if (isValidUserPhone(body.userPhone)) {
-        statusMessage.innerHTML = loadMessage2;
+});
 
-        postData(body, () => {
-          statusMessage.textContent = successMessage;
 
-        }, (error) => {
-          statusMessage.textContent = errorMessage;
-          console.error(error);
-        });
-        form.reset();
-      } else {
-        event.target.querySelector('input[name="user_phone"]').style = 'box-shadow: 0 0 20px #f74949;';
-        // statusMessage.textContent = `Поле "Номер телефона" заполненно некорректно!`;
-      }
-    });
-  });
 
-  const isValidUserPhone = number => {
-    const pattern = /^((8|\+7))((\d{3}))[\d]{7}$/;
-    return pattern.test(number);
-  };
-
-  const postData = (body, outputData, errorData) => {
-    const request = new XMLHttpRequest();
-
-    request.addEventListener('readystatechange', () => {
-
-      if (request.readyState !== 4) {
-        return;
-      }
-
-      if (request.status === 200) {
-        outputData();
-      } else {
-        errorData(request.status);
-      }
-
-    });
-
-    request.open('POST', './server.php');
-    request.setRequestHeader('Content-Type', 'application/json');
-
-    request.send(JSON.stringify(body));
-  };
 };
-
 sendForm();
 
 

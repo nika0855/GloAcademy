@@ -1,74 +1,113 @@
 
 
-const sendForm = () => {
-  const errorMessage = 'Что-то пошло не так...',
-    loadMessage = 'Загрузка...',
-    successMessage = 'Спасибо! Мы скоро с Вами свяжемся!',
-    loadMessage2 = '<img src="images/preloader.gif" alt="preloader">';
+	const checkForm = form => {
+    const valid = [];
+    const inputs = form.querySelectorAll('input');
+    inputs.forEach(input => {
+      if (input.value.trim() === '') {
+        valid.push(input.name);
+      }
+    });
+    return valid;
+  };
 
-  const forms = document.querySelectorAll('form');
+  const formEvent = (form, event) => {
+    const target = event.target;
 
-  const statusMessage = document.createElement('div');
-  statusMessage.style.cssText = 'font-size: 2rem';
+    if (event.type === 'input') {
+      if (target.matches('input')) {
+        const itemAttrName = target.getAttribute('name');
+        if (itemAttrName === "user_name" || itemAttrName === "user_message") {
+          target.value = target.value.replace(/[^А-Яа-яёЁ\s]/, "");
+        }
+        if (itemAttrName === "user_email") {
+          target.value = target.value.replace(/[А-Яа-яёЁ\s]/, "");
+        }
+        if (itemAttrName === "user_phone") {
+          target.value = target.value.replace(/[^0-9+]/, "");
+        }
+      }
+    } else if (event.type === 'submit') {
+      checkForm(form);
+    }
+  };
 
-  forms.forEach((form) => {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      event.target.querySelector('input[name="user_phone"]').style = '';
-      form.appendChild(statusMessage);
+  // send-ajax-form
 
-      const formData = new FormData(form);
-      let body = {};
+  const sendForm = () => {
+    const errorMessage = 'Что-то пошло не так...',
+      successMessage = 'Спасибо! Мы скоро с Вами свяжемся!',
+      loadMessage = '<img src="images/preloader.gif" alt="preloader">';
 
-      formData.forEach((val, key) => {
-        body[key] = val;
+    const statusMessage = document.createElement('div');
+    statusMessage.style.cssText = 'font-size: 2rem';
+
+    const postData = formData => fetch('./server.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const hideMessage = () => {
+      setTimeout(() => {
+        statusMessage.textContent = '';
+      }, 5000);
+    };
+
+    const forms = document.querySelectorAll('form');
+
+    forms.forEach(form => {
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const target = event.target,
+          inputs = target.querySelectorAll('input'),
+          formData = new FormData(form);
+
+        inputs.forEach(item => {
+          item.style = '';
+        });
+
+        form.appendChild(statusMessage);
+        statusMessage.style = `font-size: 2rem; color: white`;
+
+        statusMessage.innerHTML = loadMessage;
+
+        const getCheckForm = checkForm(event.target);
+
+        if (getCheckForm.length !== 0) {
+          getCheckForm.forEach(elem => {
+            form.querySelector(`input[name="${elem}"]`).style = 'box-shadow: 0 0 20px #f74949;';
+            statusMessage.textContent = 'Форма заполненна некорректно!';
+          });
+        } else {
+          postData(formData)
+            .then(response => {
+              if (response.status !== 200) {
+                throw new Error('status network not 200');
+              }
+              form.reset();
+              statusMessage.textContent = successMessage;
+              hideMessage();
+            })
+            .catch(error => {
+              statusMessage.textContent = errorMessage;
+              hideMessage();
+              console.error(error);
+            });
+        }
+
+        clearTimeout(hideMessage);
+
       });
 
-      if (isValidUserPhone(body.userPhone)) {
-        statusMessage.innerHTML = loadMessage2;
-
-        postData(body, () => {
-          statusMessage.textContent = successMessage;
-
-        }, (error) => {
-          statusMessage.textContent = errorMessage;
-          console.error(error);
-        });
-        form.reset();
-      } else {
-        event.target.querySelector('input[name="user_phone"]').style = 'box-shadow: 0 0 20px #f74949;';
-        // statusMessage.textContent = `Поле "Номер телефона" заполненно некорректно!`;
-      }
-    });
-  });
-
-  const isValidUserPhone = number => {
-    const pattern = /^((8|\+7))((\d{3}))[\d]{7}$/;
-    return pattern.test(number);
-  };
-
-  const postData = (body, outputData, errorData) => {
-    const request = new XMLHttpRequest();
-
-    request.addEventListener('readystatechange', () => {
-
-      if (request.readyState !== 4) {
-        return;
-      }
-
-      if (request.status === 200) {
-        outputData();
-      } else {
-        errorData(request.status);
-      }
-
+      form.addEventListener('input', event => {
+        formEvent(form, event);
+      });
     });
 
-    request.open('POST', './server.php');
-    request.setRequestHeader('Content-Type', 'application/json');
-
-    request.send(JSON.stringify(body));
   };
-};
 
-export default sendForm;
+  export default sendForm;
