@@ -41,13 +41,14 @@
 
     const statusMessage = document.createElement('div');
     statusMessage.style.cssText = 'font-size: 2rem';
+    let body = {};
 
     const postData = formData => fetch('./server.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(body)
     });
 
     const hideMessage = () => {
@@ -65,6 +66,9 @@
         const target = event.target,
           inputs = target.querySelectorAll('input'),
           formData = new FormData(form);
+          formData.forEach((val, key) => {
+            body[key] = val;
+          });
 
         inputs.forEach(item => {
           item.style = '';

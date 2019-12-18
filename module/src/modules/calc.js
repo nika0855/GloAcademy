@@ -1,51 +1,65 @@
 
 
-const calc = (price = 100) => {
-  const calcBlock = document.querySelector('.calc-block'),
-    calcType = document.querySelector('.calc-type'),
-    calcCount = document.querySelector('.calc-count'),
-    calcSquare = document.querySelector('.calc-square'),
-    calcDay = document.querySelector('.calc-day'),
-    totalValue = document.getElementById('total');
+	const calc = (price = 100) => {
+		const calcBlock = document.querySelector(".calc-block"),
+			calcType = calcBlock.querySelector("select.calc-type"),
+			totalValue = document.getElementById("total"),
+			inputCalcItem = calcBlock.querySelectorAll("input.calc-item"),
+			calcSquare = document.querySelector(".calc-square"),
+			calcCount = document.querySelector(".calc-count"),
+			calcDay = document.querySelector(".calc-day");
 
-    const countSum = () => {
-      let total = 0,
-        countValue = 1,
-        dayValue = 1;
+		// calcValid
 
-      const typeValue = calcType.options[calcType.selectedIndex].value,
-           squareValue = +calcSquare.value;
+		const calcValid = item => {
+			item.addEventListener("input", () => {
+				if (item.classList.contains("calc-item")) {
+					item.value = item.value.replace(/[^\d.]/, "");
+				}
+			});
+		};
 
-      if(calcCount.value > 1) {
-        countValue += (calcCount.value - 1) / 10;
-      }
+		inputCalcItem.forEach(item => {
+			calcValid(item);
+		});
 
-      if(calcDay.value && calcDay.value < 5) {
-        dayValue *= 2;
-      }else if(calcDay.value && calcDay.value < 10) {
-        dayValue *= 1.5;
-      }
-           
-      if(typeValue && squareValue) {
-         total = price * typeValue * squareValue * countValue * dayValue;    
-      }      
+		const countSum = () => {
+			let total = 0,
+				countValue = 1,
+				dayValue = 1,
+				count = 0;
 
-      totalValue.textContent = total;
-    };
+			const typeValue = calcType.options[calcType.selectedIndex].value,
+				squareValue = +calcSquare.value;
 
-  calcBlock.addEventListener('change', (e) => {
-    const target = e.target;
+			if (calcCount.value > 1) {
+				countValue += (calcCount.value - 1) / 10;
+			}
 
-  //   if(target === calcType || target === calcSquare ||
-  //     target === calcDay || target === calcCount) {
-  //       console.log(2);
-  //     }
-  // });
-  if(target.matches('select') || target.matches('input')) {
-    countSum();
-  }
+			if (calcDay.value && calcDay.value < 5) {
+				dayValue *= 2;
+			} else if (calcDay.value && calcDay.value < 10) {
+				dayValue *= 1.5;
+			}
 
-});
-};
+			if (typeValue && squareValue) {
+				total = price * typeValue * squareValue * countValue * dayValue;
+				const interval = setInterval(() => {
+					count += 10;
+					totalValue.textContent = count;
+					if (count === total) {
+						clearInterval(interval);
+					}
+				}, 1);
+			}
+		};
+
+		calcBlock.addEventListener("change", event => {
+			const target = event.target;
+			if (target.matches("select") || target.matches("input")) {
+				countSum();
+			}
+		});
+	};
 
 export default calc;
