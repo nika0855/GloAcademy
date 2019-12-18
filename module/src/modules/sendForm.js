@@ -43,7 +43,7 @@
     statusMessage.style.cssText = 'font-size: 2rem';
     let body = {};
 
-    const postData = formData => fetch('./server.php', {
+    const postData = (body) => fetch('./server.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

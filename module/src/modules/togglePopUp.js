@@ -10,7 +10,6 @@ const togglePopUp = () => {
         popup.style.display = 'block';
 
         if(document.documentElement.clientWidth > 768) {
-          let popUpAnimate;
 
           const addLeft = () => {
             popupContent.style.left = 10 + '%';

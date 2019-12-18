@@ -1,10 +1,8 @@
 
 const toggleMenu = () => {
   const menu = document.querySelector('menu'),
-  btnMenu = document.querySelector('.menu'),
-  bodyM = document.querySelector('body'),
-  closeBtn = document.querySelector('.close-btn'),
-  menuItems = menu.querySelectorAll('ul>li');
+  bodyM = document.querySelector('body');
+  
 
   const sandwichMenu = (e) => {
     let target = e.target;
