@@ -13,8 +13,7 @@ callBtn.forEach((elem) => {
 
 popup.addEventListener('click', (event) => {
   let target = event.target;
-  console.log(target);
-
+  
   if(target.classList.contains('popup-close')) {
     popup.style.display = 'none';
   
