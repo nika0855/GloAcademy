@@ -72,7 +72,9 @@ const sendForm = () => {
       request.send(JSON.stringify(body));
        
         });
-   
+        form.addEventListener('input', event => {
+          formEvent(form, event);
+        });
 });
 };
 export default sendForm;
