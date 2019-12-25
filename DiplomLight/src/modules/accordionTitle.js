@@ -26,7 +26,7 @@ const panelDefault = document.querySelectorAll('.panel-default'),
      }) ;
    }
    
-  })
+  });
        
     
   });
@@ -34,4 +34,5 @@ const panelDefault = document.querySelectorAll('.panel-default'),
 
 
 };
-export default accordionTitle;
+accordionTitle();
+// export default accordionTitle;
